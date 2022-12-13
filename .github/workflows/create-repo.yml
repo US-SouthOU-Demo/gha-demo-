@@ -1,0 +1,93 @@
+# Workflow to trigger repository creation
+
+name: Create repo
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-repository:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      # We need to authenticate with an App token to check out the private (custom actions)
+      - name: Retrieve the admin token
+        id: github_app
+        uses: machine-learning-apps/actions-app-token@0.21
+        with:
+          APP_PEM: ${{ secrets.APP_PRIVATE_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+
+      # Check out a private action to parse the issue body
+      - name: Checkout the issue parser action
+        id: checkout_issue_parser
+        uses: actions/checkout@v2
+        with:
+          repository: ps-actions-sandbox/custom-js-action-issue-parser
+          ref: main 
+          token: ${{ steps.github_app.outputs.app_token }}
+          path: issue-parser
+
+      - name: Parse the issue
+        id: parser
+        uses: ./issue-parser
+        with:
+          admin_token: ${{ steps.github_app.outputs.app_token }}
+
+      - name: Greetings for the users submitting issues to this repository
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+              👋 Thanks for opening this issue to create the repository '${{ steps.parser.outputs.name }}'!
+
+              Hang on for a moment while we do the checks and you will be notified in this issue when everything is ready.
+              `
+            })
+
+      # Check out the private action used to create a new repository
+      - name: Check out the repo creator action
+        uses: actions/checkout@v2
+        id: checkout_repo_creator
+        with:
+          repository: ps-actions-sandbox/custom-js-action-repo-creator
+          ref: main 
+          token: ${{ steps.github_app.outputs.app_token }}
+          path: repo-creator
+
+      - name: Create capability repository
+        id: create_repository
+        uses: ./repo-creator
+        with:
+          repository_name: ${{ steps.parser.outputs.name }}
+          admin_token: ${{ steps.github_app.outputs.app_token }}
+
+      - uses: actions/github-script@v4
+        name: Report created elements
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+              OK @${context.payload.sender.login}, we are finished!
+
+              The new repository created is: **${{ steps.create_repository.outputs.repository_name }}**
+
+              We are now closing this issue.
+              `
+            })
+            github.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            })
