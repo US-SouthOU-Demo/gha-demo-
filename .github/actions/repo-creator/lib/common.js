@@ -20,7 +20,7 @@ async function reportToUser (github, octokit, message) {
         issue_number: issueNumber,
         body: message
     };
-    await octokit.issues.createComment(params)
+    await octokit.rest.issues.createComment(params)
 }
 
 function normalizeCapabilityName(name) {
@@ -39,7 +39,7 @@ async function getUsersFromTeam(adminOctokit, org, teamName) {
     };
     let teamUsers = [];
     for await (const response of adminOctokit.paginate.iterator(
-      adminOctokit.teams.listMembersInOrg, 
+      adminOctokit.rest.teams.listMembersInOrg, 
       params
     )) {
       teamUsers = teamUsers.concat(response.data.map((item) => item.login.toLowerCase()));
