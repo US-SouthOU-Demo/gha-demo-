@@ -11,7 +11,7 @@ async function run() {
     let variables = YAML.parse(body);
     const {name, description, action} = variables;
     const adminToken = core.getInput('admin_token');
-    const octokit = new github.GitHub(adminToken);
+    const octokit = github.getOctokit(adminToken);
 
     console.log(`Parameters parsed: name - ${name}, description - ${description}, action - ${action}`)
 
@@ -36,7 +36,7 @@ async function run() {
     let capabilityRepoName = normalizeCapabilityName(name);
     let repositoryExists = false;
     try {
-      await octokit.repos.get({
+      await octokit.rest.repos.get({
         owner: org,
         repo: capabilityRepoName
       });

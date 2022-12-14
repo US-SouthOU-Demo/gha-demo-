@@ -2203,7 +2203,7 @@ async function run() {
     let variables = YAML.parse(body);
     const {name, description, action} = variables;
     const adminToken = core.getInput('admin_token');
-    const octokit = new github.GitHub(adminToken);
+    const octokit = github.getOctokit(adminToken);
 
     console.log(`Parameters parsed: name - ${name}, description - ${description}, action - ${action}`)
 
@@ -2228,7 +2228,7 @@ async function run() {
     let capabilityRepoName = normalizeCapabilityName(name);
     let repositoryExists = false;
     try {
-      await octokit.repos.get({
+      await octokit.rest.repos.get({
         owner: org,
         repo: capabilityRepoName
       });
@@ -14158,7 +14158,7 @@ async function reportToUser (github, octokit, message) {
         issue_number: issueNumber,
         body: message
     };
-    await octokit.issues.createComment(params)
+    await octokit.rest.issues.createComment(params)
 }
 
 function normalizeCapabilityName(name) {
@@ -14177,7 +14177,7 @@ async function getUsersFromTeam(adminOctokit, org, teamName) {
     };
     let teamUsers = [];
     for await (const response of adminOctokit.paginate.iterator(
-      adminOctokit.teams.listMembersInOrg, 
+      adminOctokit.rest.teams.listMembersInOrg, 
       params
     )) {
       teamUsers = teamUsers.concat(response.data.map((item) => item.login.toLowerCase()));
