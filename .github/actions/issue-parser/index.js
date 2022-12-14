@@ -5,30 +5,29 @@ const YAML = require('yaml');
 
 async function run() {
   try {
-    let body = github.payload.issue.body;
-    let org = github.payload.organization.login;
+    const { context } = github;
+    let body = context.payload.issue.body;
+    let org = context.payload.organization.login;
     let variables = YAML.parse(body);
-    const { name, description, action } = variables;
-
-    // Token with ability to create repository
+    const {name, description, action} = variables;
     const adminToken = core.getInput('admin_token');
-    const octokit = github.getOctokit(adminToken);
+    const octokit = new github.GitHub(adminToken);
 
     console.log(`Parameters parsed: name - ${name}, description - ${description}, action - ${action}`)
 
-    if (!action || action.trim().length === 0) {
+    if(!action || action.trim().length === 0){
       await reportError(github, core, octokit, "⚠️ Validation error: The action name does not exist. Follow the template");
       return;
     }
 
     // Validate the name exists
-    if (!name || name.trim().length === 0) {
+    if(!name || name.trim().length === 0) {
       await reportError(github, core, octokit, "⚠️ Validation error: Missing name in the yaml config");
       return;
     }
 
     // Validate the capability contains a description
-    if (!description || description.trim().length === 0) {
+    if(!description || description.trim().length === 0) {
       await reportError(github, core, octokit, "⚠️ Validation error: Missing description in the yaml config");
       return;
     }
@@ -43,17 +42,17 @@ async function run() {
       });
       core.debug(`The repository ${capabilityRepoName} request didn't fail which means the repo exists`);
       repositoryExists = true;
-    } catch (e) {
+    }catch (e) {
       if (e.status === 404) {
         repositoryExists = false;
-      } else {
+      }else {
         await reportError(github, core, octokit, "There was an error while obtaining the repository data. Try again later");
         return;
       }
     }
 
     core.debug(`The repository ${capabilityRepoName} exists: ${repositoryExists}`);
-    if (repositoryExists) {
+    if(repositoryExists){
       await reportError(github, core, octokit, `⚠️ Validation error: The repository ${capabilityRepoName} already exists`);
       return;
     }

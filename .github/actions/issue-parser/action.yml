@@ -13,5 +13,5 @@ outputs:
     description: Description of the repository
 
 runs:
-  using: 'node16'
+  using: 'node12'
   main: 'dist/index.js'
