@@ -34,11 +34,11 @@ jobs:
 
       # Comment on the Issue to let the user know that their request has been received
       - name: Greetings for the users submitting issues to this repository
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.issues.createComment({
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -60,12 +60,12 @@ jobs:
 
 
       # Add a new comment on the Issue to let the user know that their request was processed and then close the Issue
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v5
         name: Report created elements
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.issues.createComment({
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -77,7 +77,7 @@ jobs:
               We are now closing this issue.
               `
             })
-            github.issues.update({
+            github.rest.issues.update({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
