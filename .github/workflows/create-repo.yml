@@ -24,7 +24,7 @@ jobs:
 
       - name: Parse the issue
         id: parser
-        uses: ./.github/actions/issue-parser
+        uses: ./.github/actions/capability-parser
         with:
           admin_token: ${{ steps.github_app.outputs.app_token }}
 
