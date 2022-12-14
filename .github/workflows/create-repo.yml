@@ -11,6 +11,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
+      # Checkout the repository to have access to the custom actions used
+      - uses: actions/checkout@v3
+    
       # We need to authenticate with an App token to check out the private (custom actions)
       - name: Retrieve the admin token
         id: github_app
