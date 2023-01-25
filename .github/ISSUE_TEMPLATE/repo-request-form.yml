@@ -1,0 +1,44 @@
+name: ✨Repository Creation Form
+description: Request a new repository
+labels: ["admin"]
+title: "[REPO]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A new repository will be created if all checks are successful.
+  
+  - type: textarea
+    id: action
+    attributes:
+      label: Description
+      description: Give us a brief description of the feature or enhancement you would like.
+      placeholder: repo-name
+    validations:
+      required: true
+      
+  - type: textarea
+    id: name
+    attributes:
+      label: Repository Name
+      description: The name of the repository to be created.  If a repository with the name already exists, the request will be denied.
+      placeholder: The HR Profiles project is used ...
+      
+  - type: textarea
+    id: description
+    attributes:
+      label: Repository Description
+      description: A description of the repository.
+      
+  - type: dropdown
+    id: department
+    attributes:
+      label: Department Name
+      description: Name of the department requesting the new repository.
+      options:
+        - HR
+        - IT
+        - Marketing
+        - Sales
+      validation:
+        required: true
