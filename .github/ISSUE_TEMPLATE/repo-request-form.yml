@@ -1,8 +1,8 @@
 name: ✨Repository Creation Form
 description: Request a new repository
 labels: ["admin", "create-repo"]
+assignees: [fredgohsman, US-SouthOU-Demo/demo]
 title: "[REPO]: "
-assignees: fredgohsman
 body:
   - type: markdown
     attributes:
