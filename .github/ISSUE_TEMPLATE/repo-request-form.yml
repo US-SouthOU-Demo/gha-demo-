@@ -37,3 +37,12 @@ body:
         - Sales
     validations:
       required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms & Conditions
+      description: Hereby agree to the terms and conditions set out in our policies as to the use of GitHub.
+      options:
+        - label: I agree
+          required: true
