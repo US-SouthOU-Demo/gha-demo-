@@ -1,7 +1,7 @@
 name: ✨Repository Creation Form
 description: Request a new repository
 labels: ["admin", "create-repo"]
-assignees: [fredgohsman, US-SouthOU-Demo/demo]
+assignees: [fredgohsman]
 title: "[REPO]: "
 body:
   - type: markdown
@@ -18,7 +18,7 @@ body:
     validations:
       required: true
       
-  - type: textarea
+  - type: input
     id: description
     attributes:
       label: Repository Description
@@ -42,7 +42,7 @@ body:
     id: terms
     attributes:
       label: Terms & Conditions
-      description: Hereby agree to the terms and conditions set out in our policies as to the use of GitHub.
+      description: Hereby agree to the [terms and conditions](https://github.com/us-southou-demo/gha-demo-repo-maker/terms.md) set out in our policies as to the use of GitHub.
       options:
         - label: I agree
           required: true
