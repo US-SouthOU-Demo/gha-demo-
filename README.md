@@ -5,18 +5,19 @@ Sample workflow for creating repositories from an issue template form.
 ## How to use
 To create a new repository:
 1. open a new issue and choose the `Create repository` template
-2. **do not modify the first line**
-3. update the values of the 2nd and 3rd line to the right of the colon (`name:`, `description:`) with the name and description for your repository
+2. **do not modify the content of line 1, nor `name:` on line 2, and `description:` on line 3**
+3. on the 2nd line, update the value to the right of the colon with the name for the repository to be created, this must not be the name of an existing repository in the organization
+3. on the 3rd line, update the value to the right of the colon with a description for the repository
 4. click save
 
-The issue will be updated with comments as the workflow processes the request and the issue will be closed once the repository has been created.
+Once, the issue is created, it will trigger a workflow.  The issue will be updated with comments as the workflow processes the request and finally the issue will be closed once the repository has been created.
 
 [Create a new repository](https://github.com/US-SouthOU-Demo/gha-demo-repo-maker/issues/new?assignees=&labels=automation&template=create-repo-and-teams.md&title=Create+repository)
 
 > **Note:**
-> There is a *beta* feature called ['Issue Template Forms'](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms) which will allow creating a form that would allow users only to edit appropriate values.  I am currently in the process of updatig the workflow to leverage a form template.
+> There is a *beta* feature called [Issue Template Forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms) which creates a form that would allow users only to edit appropriate values without accidentally overwriting value that are required to not be modified.  I am currently updating the process to leverage an issue form template but this is still a work-in-progress.
 
-See the [Issue Templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates) documentation for more information.
+See the GitHub documentation for more information on [Issue Templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates).
 
 ## Components
 
