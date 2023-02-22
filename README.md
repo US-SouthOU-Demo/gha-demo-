@@ -1,6 +1,6 @@
 # GitHub Actions Demo: Repository Maker
 
-Sample workflow for creating repositories from an issue template form.
+Sample workflow for creating repositories from an issue template.
 
 ## How to use
 To create a new repository:
@@ -23,5 +23,5 @@ See the GitHub documentation for more information on [Issue Templates](https://d
 
 File|Purpose
 ---|---
-[.github/ISSUE_TEMPLATE/repo-request-form.yml](https://github.com/US-SouthOU-Demo/gha-demo-repo-maker/blob/main/.github/ISSUE_TEMPLATE/repo-request-form.md)|An issue template form for entering the details of the repository to be created.
+[.github/ISSUE_TEMPLATE/repo-request-form.yml](https://github.com/US-SouthOU-Demo/gha-demo-repo-maker/blob/main/.github/ISSUE_TEMPLATE/repo-request-form.md)|An issue template for entering the details of the repository to be created.
 [.github/workflows/create-repo.yml](https://github.com/US-SouthOU-Demo/gha-demo-repo-maker/blob/main/.github/workflows/create-repo.yml)|A workflow, triggered by the creation of an issue, which parses the issue and creates a repository based on the information provided.
